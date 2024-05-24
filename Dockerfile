@@ -1,11 +1,7 @@
-FROM node:14
+FROM node:18
 
 # Install ImageMagick
 RUN apt-get update && apt-get install -y imagemagick
-
-# Copy your project files
-WORKDIR /app
-COPY . /app
 
 # Install project dependencies
 RUN npm install
