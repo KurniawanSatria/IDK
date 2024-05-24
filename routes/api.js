@@ -92,19 +92,25 @@ router.get("/nulis", async (req, res) => {
     let { text, nama, kelas, hari, tanggal } = req.query;
     if (!text || !nama || !kelas || !hari || !tanggal) return res.json({status: false, creator: 'SatzzDev', message: 'input parameter text nama kelas hari tanggal, contoh: ?text=hello&nama=satzz&kelas=1&hari=senin&tanggal=1'});
     try {
-        const mager = new nulish.nulis();
+        const mager = await new nulish.nulis();
         const image = await mager.buku1(text, nama, kelas, hari, tanggal);
         const imagePath = path.join(__dirname, '../hasil.jpg');
         const response = fs.readFileSync(imagePath);
         const buffer = Buffer.from(response, "binary");
         res.set({"Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000"});
         res.send(buffer);
-        fs.unlinkSync('./hasil.jpg')
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: false, message: 'Error generating image' });
+    } finally {
+        try {
+            fs.unlinkSync(imagePath);
+        } catch (err) {
+            console.error("Error deleting image file:", err);
+        }
     }
 });
+
 
 router.get("/welcome", async (req, res) => {
   const { username, guildname, guildicon, membercount, avatar, background } = req.query;
