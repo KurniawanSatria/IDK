@@ -99,6 +99,7 @@ router.get("/nulis", async (req, res) => {
         const buffer = Buffer.from(response, "binary");
         res.set({"Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000"});
         res.send(buffer);
+        fs.unlinkSync('./hasil.jpg')
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: false, message: 'Error generating image' });
