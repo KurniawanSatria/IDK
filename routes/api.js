@@ -104,7 +104,7 @@ router.get("/nulis", async (req, res) => {
         res.status(500).json({ status: false, message: 'Error generating image' });
     } finally {
         try {
-            fs.unlinkSync(imagePath);
+            fs.unlinkSync(path.join(__dirname, '../hasil.jpg'));
         } catch (err) {
             console.error("Error deleting image file:", err);
         }
