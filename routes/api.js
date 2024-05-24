@@ -35,15 +35,7 @@ const __dirname = path.dirname(__filename);
 const fetchJson = async (url, options) => {
 try {
 options ? options : {};
-const res = await axios({
-method: "GET",
-url: url,
-headers: {
-"User-Agent":
-"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
-},
-...options,
-});
+const res = await axios({ method: "GET", url: url, headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"}, ...options});
 return res.data;
 } catch (err) {
 return err;
@@ -111,24 +103,71 @@ router.get("/nulis", async (req, res) => {
     }
 });
 
+router.get("/welcome", async (req, res) => {
+  const { username, guildname, guildicon, membercount, avatar, background } = req.query;
+  if (!username || !guildname || !guildicon || !membercount || !avatar) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username guildname guildicon membercount avatar, contoh: ?username=Satzz&guildname=Siesta - MD&guildicon=&membercount=1&avatar=1' });
+  try {
+    const image = new JXR.Welcome().setUsername(username).setGuildName(guildname).setGuildIcon(guildicon).setMemberCount(membercount).setAvatar(avatar).setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg").toAttachment();
+    const buffer = image.toBuffer();
+    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.send(buffer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: 'Error generating image' });
+  }
+});
+
+router.get("/goodbye", async (req, res) => {
+  const { username, guildname, guildicon, membercount, avatar, background } = req.query;
+  if (!username || !guildname || !guildicon || !membercount || !avatar) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username guildname guildicon membercount avatar, contoh: ?username=Satzz&guildname=Siesta - MD&guildicon=&membercount=1&avatar=1' });
+  try {
+    const image = new JXR.Goodbye().setMemberCount(membercount).setAvatar(avatar).setUsername(username).setBg(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg").toAttachment();
+    const buffer = image.toBuffer();
+    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.send(buffer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: 'Error generating image' });
+  }
+});
+
+router.get("/gura", async (req, res) => {
+  const { username } = req.query;
+  if (!username) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username' });
+  try {
+    const image = new JXR.Gura().setName(username).toAttachment();
+    const buffer = image.toBuffer();
+    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.send(buffer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: 'Error generating image' });
+  }
+});
+
 router.get("/wallpaper", async (req, res) => {
-    const {query} = req.query;
-    if (!query) return res.json({status: false, creator: "SatzzDev", message: "Masukkan parameter query contoh: ?query=anime"});
-    const response = await axios.get('https://www.wallpaperflare.com/search?wallpaper=' + query);
+  const { query } = req.query;
+  if (!query) return res.json({ status: false, creator: 'SatzzDev', message: 'Masukkan parameter query contoh: ?query=anime' });
+  try {
+    const response = await axios.get(`https://www.wallpaperflare.com/search?wallpaper=${query}`);
     const $ = cheerio.load(response.data);
     const urls = [];
     $('li[itemprop="associatedMedia"]').each((index, element) => {
-        const url = $(element).find('a').attr('href') + '/download';
-        if (url) urls.push(url);
+      const url = $(element).find('a').attr('href') + '/download';
+      if (url) urls.push(url);
     });
     const updatedUrls = [];
-    for (let i of urls) {
-        const res = await axios.get(i);
-        const _$ = cheerio.load(res.data);
-        const imgUrl = _$('#show_img').attr('src');
-        updatedUrls.push(imgUrl);
+    for (const i of urls) {
+      const res = await axios.get(i);
+      const _$ = cheerio.load(res.data);
+      const imgUrl = _$('#show_img').attr('src');
+      updatedUrls.push(imgUrl);
     }
-    res.json({status:true,creator:'SatzzDev', result: updatedUrls});
+    res.json({ status: true, creator: 'SatzzDev', result: updatedUrls });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: 'Error fetching wallpapers' });
+  }
 });
 
 router.get("/pitutur", async (req, res) => {
