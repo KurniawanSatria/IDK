@@ -116,7 +116,14 @@ router.get("/welcome", async (req, res) => {
   const { username, guildname, guildicon, membercount, avatar, background } = req.query;
   if (!username || !guildname || !guildicon || !membercount || !avatar) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username guildname guildicon membercount avatar, contoh: ?username=Satzz&guildname=Siesta - MD&guildicon=&membercount=1&avatar=1' });
   try {
-    const image = new JXR.Welcome().setUsername(username).setGuildName(guildname).setGuildIcon(guildicon).setMemberCount(membercount).setAvatar(avatar).setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg").toAttachment();
+    const image = await new JXR.Welcome()
+      .setUsername(username)
+      .setGuildName(guildname)
+      .setGuildIcon(guildicon)
+      .setMemberCount(membercount)
+      .setAvatar(avatar)
+      .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
+      .toAttachment();
     const buffer = image.toBuffer();
     res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
     res.send(buffer);
@@ -130,7 +137,12 @@ router.get("/goodbye", async (req, res) => {
   const { username, guildname, guildicon, membercount, avatar, background } = req.query;
   if (!username || !guildname || !guildicon || !membercount || !avatar) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username guildname guildicon membercount avatar, contoh: ?username=Satzz&guildname=Siesta - MD&guildicon=&membercount=1&avatar=1' });
   try {
-    const image = new JXR.Goodbye().setMemberCount(membercount).setAvatar(avatar).setUsername(username).setBg(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg").toAttachment();
+    const image = await new JXR.Goodbye()
+      .setMemberCount(membercount)
+      .setAvatar(avatar)
+      .setUsername(username)
+      .setBg(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
+      .toAttachment();
     const buffer = image.toBuffer();
     res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
     res.send(buffer);
@@ -144,7 +156,9 @@ router.get("/gura", async (req, res) => {
   const { username } = req.query;
   if (!username) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username' });
   try {
-    const image = new JXR.Gura().setName(username).toAttachment();
+    const image = new JXR.Gura()
+      .setName(username)
+      .toAttachment();
     const buffer = image.toBuffer();
     res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
     res.send(buffer);
