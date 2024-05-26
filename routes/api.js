@@ -138,10 +138,12 @@ router.get("/goodbye", async (req, res) => {
   if (!username || !guildname || !guildicon || !membercount || !avatar) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username guildname guildicon membercount avatar, contoh: ?username=Satzz&guildname=Siesta - MD&guildicon=&membercount=1&avatar=1' });
   try {
     const image = await new JXR.Goodbye()
+      .setUsername(username)
+      .setGuildName(guildname)
+      .setGuildIcon(guildicon)
       .setMemberCount(membercount)
       .setAvatar(avatar)
-      .setUsername(username)
-      .setBg(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
+      .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
     res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
@@ -156,7 +158,7 @@ router.get("/gura", async (req, res) => {
   const { username } = req.query;
   if (!username) return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter username' });
   try {
-    const image = new JXR.Gura()
+    const image = await new JXR.Gura()
       .setName(username)
       .toAttachment();
     const buffer = image.toBuffer();
