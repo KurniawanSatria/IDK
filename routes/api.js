@@ -94,12 +94,12 @@ router.get("/nulis", async (req, res) => {
     try {
         const mager = await new nulish.nulis();
         const image = await mager.buku1(text, nama, kelas, hari, tanggal);
-        const imagePath = path.join(__dirname, '../hasil.jpg');
-        const response = fs.readFileSync(imagePath);
+        const imagePath = path.join(__dirname, new Date() + '.jpg');
+        const response = await fs.readFileSync(imagePath);
         const buffer = Buffer.from(response, "binary");
         res.set({"Content-Type": "image/jpeg"});
         res.send(buffer);
-        fs.unlinkSync(path.join(__dirname, '../hasil.jpg'))
+        fs.unlinkSync(imagePath)
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: false, message: 'Error generating image' });
