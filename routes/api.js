@@ -97,17 +97,12 @@ router.get("/nulis", async (req, res) => {
         const imagePath = path.join(__dirname, '../hasil.jpg');
         const response = fs.readFileSync(imagePath);
         const buffer = Buffer.from(response, "binary");
-        res.set({"Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000"});
+        res.set({"Content-Type": "image/jpeg"});
         res.send(buffer);
+        fs.unlinkSync(path.join(__dirname, '../hasil.jpg'))
     } catch (error) {
         console.error(error);
         res.status(500).json({ status: false, message: 'Error generating image' });
-    } finally {
-        try {
-            fs.unlinkSync(path.join(__dirname, '../hasil.jpg'));
-        } catch (err) {
-            console.error("Error deleting image file:", err);
-        }
     }
 });
 
@@ -125,7 +120,7 @@ router.get("/welcome", async (req, res) => {
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
-    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.set({ "Content-Type": "image/jpeg"});
     res.send(buffer);
   } catch (error) {
     console.error(error);
@@ -146,7 +141,7 @@ router.get("/goodbye", async (req, res) => {
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
-    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.set({ "Content-Type": "image/jpeg"});
     res.send(buffer);
   } catch (error) {
     console.error(error);
@@ -162,7 +157,7 @@ router.get("/gura", async (req, res) => {
       .setName(username)
       .toAttachment();
     const buffer = image.toBuffer();
-    res.set({ "Content-Type": "image/jpeg", "Content-Length": buffer.length, "Cache-Control": "public, max-age=31536000" });
+    res.set({ "Content-Type": "image/jpeg"});
     res.send(buffer);
   } catch (error) {
     console.error(error);
