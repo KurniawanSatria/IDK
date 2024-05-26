@@ -94,9 +94,12 @@ router.get("/nulis", async (req, res) => {
         return res.json({ status: false, creator: 'SatzzDev', message: 'input parameter text nama kelas hari tanggal, contoh: ?text=hello&nama=satzz&kelas=1&hari=senin&tanggal=1' });
     }
     try {
+        if (fs.exists(path.join(__dirname, `../hasil.jpg`))) {
+        fs.unlink(path.join(__dirname, `../hasil.jpg`))
+    }
         const mager = await new nulish.nulis();
         const image = await mager.buku1(text, nama, kelas, hari, tanggal);
-        const imagePath = path.join(__dirname, `${Date.now()}.jpg`);
+        const imagePath = path.join(__dirname, `../hasil.jpg`);
         const response = await fs.readFile(imagePath);
         const buffer = Buffer.from(response, "binary");
         res.set({"Content-Type": "image/jpeg"});
