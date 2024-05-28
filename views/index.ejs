@@ -339,34 +339,19 @@
 
 <!-- Audio List Modal -->
 <div class="modal fade show" id="audioListModal" tabindex="-1" role="dialog" aria-labelledby="audioListModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="audioListModalLabel">Audio List</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<ul class="nav nav-tabs" id="audioCategoryTabs" role="tablist">
-<li class="nav-item">
-<a class="nav-link active" id="sad-tab" data-toggle="tab" href="#sad" role="tab" aria-controls="sad" aria-selected="true">Sad</a>
-</li>
-</ul>
-<div class="tab-content" id="audioCategoryTabsContent">
-<div class="tab-pane fade show active" id="sad" role="tabpanel" aria-labelledby="sad-tab">
-<ul class="list-group list-group-flush" id="sad-list"></ul>
-</div>
-<div class="tab-pane fade" id="drop" role="tabpanel" aria-labelledby="drop-tab">
-<ul class="list-group list-group-flush" id="drop-list"></ul>
-</div>
-<div class="tab-pane fade" id="sad" role="tabpanel" aria-labelledby="sad-tab">
-<ul class="list-group list-group-flush" id="sad-list"></ul>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="audioListModalLabel">Audio List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush" id="audio-list"></ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- .row-->
@@ -493,20 +478,18 @@ const nextAudio = list[Math.floor(Math.random() * list.length)];
 changeAudio(nextAudio.url);
 });
 
-const sadList = document.getElementById('sad-list');
+const audioList = document.getElementById('audio-list');
 
 list.forEach((item) => {
-const li = document.createElement('li');
-li.className = 'list-group-item';
-li.innerHTML = `<a class="text-muted" href='#'>${getTrackName(item.url)}</a>`;
-li.onclick = () => {
-changeAudio(item.url);
-$('#audioListModal').modal('hide');
-};
+  const li = document.createElement('li');
+  li.className = 'list-group-item';
+  li.innerHTML = `<a class="text-muted" href='#'>${getTrackName(item.url)}</a>`;
+  li.onclick = () => {
+    changeAudio(item.url);
+    $('#audioListModal').modal('hide');
+  };
 
-if (item.category === 'SAD') {
-sadList.appendChild(li);
-}
+  audioList.appendChild(li);
 });
 
 const initialAudio = list[Math.floor(Math.random() * list.length)];
