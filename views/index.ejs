@@ -350,18 +350,12 @@
 <div class="modal-body">
 <ul class="nav nav-tabs" id="audioCategoryTabs" role="tablist">
 <li class="nav-item">
-<a class="nav-link active" id="dj-tab" data-toggle="tab" href="#dj" role="tab" aria-controls="dj" aria-selected="true">DJ</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="drop-tab" data-toggle="tab" href="#drop" role="tab" aria-controls="drop" aria-selected="false">DROP</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" id="sad-tab" data-toggle="tab" href="#sad" role="tab" aria-controls="sad" aria-selected="false">SAD</a>
+<a class="nav-link active" id="sad-tab" data-toggle="tab" href="#sad" role="tab" aria-controls="sad" aria-selected="true">Sad</a>
 </li>
 </ul>
 <div class="tab-content" id="audioCategoryTabsContent">
-<div class="tab-pane fade show active" id="dj" role="tabpanel" aria-labelledby="dj-tab">
-<ul class="list-group list-group-flush" id="dj-list"></ul>
+<div class="tab-pane fade show active" id="sad" role="tabpanel" aria-labelledby="sad-tab">
+<ul class="list-group list-group-flush" id="sad-list"></ul>
 </div>
 <div class="tab-pane fade" id="drop" role="tabpanel" aria-labelledby="drop-tab">
 <ul class="list-group list-group-flush" id="drop-list"></ul>
@@ -405,48 +399,28 @@ Chart.defaults.global.defaultFontColor = colors.mutedColor;
 $(document).ready(() => {
 let list = [
 {
-category:'DROP',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/sound%20drop%20enakeun%20v2%20speed%20up%20elite%20cees%F0%9F%94%A5.mp3',
-},
-{
-category:'DROP',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/DJ%20RAIN%20MAN%20%E2%9A%A1%F0%9F%8C%A7%EF%B8%8F%20__%20SPEED%20UP%20KECE%F0%9F%98%B0%F0%9F%98%B0.mp3',
-},
-{
-category:'DROP',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/DROP%20ENAKEUN%20V7%20__%20By%20_%20itsmeraley%20__%20Sped%20Up%20Reverb.mp3',
-},
-{
-category:'DROP',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/DROP%20ENAKEUN%20V5%20__%20By%20_%20itsmeraley%20__%20SPED%20UP%20REVERB%E2%98%A0%EF%B8%8F.mp3',
-},
-{
-category:'DJ',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/ANAK%20KAMPUNG%20-%202023%20%5B%20RIZKY%20MUTAHARI%20X%20DJ%20AYYA%20%5DREQ%20ZULL.mp3',
-},
-{
-category:'DJ',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/BERJUANG%20SAMPAI%20MATI%20SUPER%20EXC%20%5B%20Donny%20Fernanda%20x%20SANDI%20KAWEK%20%5D%20ANTONIUSTAN.mp3',
-},
-{
-category:'DJ',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/DJ%20MINANG%20VIRAL%20LAPIAK%20BURUAK%20PONDOK%20TUO--45a9e556e5f801f9fca6fb0f7097fff3mp3.mp3',
-},
-{
-category:'DJ',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/ORANG%20YANG%20SALAH%20SUPER%20EXC%20%5B%20Donny%20Fernanda%20x%20DJ%20LUTHFI%20AP%20x%20DJ%20AYYA%20%5D%20%20ANTONIUSTAN.mp3',
-},
-{
-category:'DJ',
-url:'https://github.com/SatzzDev/Database/raw/main/AMPUN%20DJ/TARAGAK%20PULANG%20-%202024%20%5B%20RIZKY%20MUTAHARI%20X%20DJ%20AYYA%20%5DREQ%20CINDERELLA2KD.mp3'
-},
-{
 category:'SAD',
 url: "https://github.com/SatzzDev/Database/raw/main/UPLOAD%20WITH%20NODEJS/car's%20outside%20x%20train%20wreck.mp3"
 },
 {
 category:'SAD',
 url: 'https://github.com/SatzzDev/Database/raw/main/UPLOAD%20WITH%20NODEJS/masih%20cinta%20speed%20up.mp3'
+},
+{
+category:'SAD',
+url: 'https://github.com/SatzzDev/Database/raw/main/SOUND/akhir%20tak%20bahagia%20speed%20up.mp3'
+},
+{
+category:'SAD',
+url: 'https://github.com/SatzzDev/Database/raw/main/SOUND/ingin%20pisah%20speed%20up.mp3'
+},
+{
+category:'SAD',
+url: 'https://github.com/SatzzDev/Database/raw/main/SOUND/somebody's%20pleasure.mp3'
+},
+{
+category:'SAD',
+url: 'https://github.com/SatzzDev/Database/raw/main/SOUND/take%20that%20patience.mp3'
 }
 ];
 
@@ -519,8 +493,6 @@ const nextAudio = list[Math.floor(Math.random() * list.length)];
 changeAudio(nextAudio.url);
 });
 
-const djList = document.getElementById('dj-list');
-const dropList = document.getElementById('drop-list');
 const sadList = document.getElementById('sad-list');
 
 list.forEach((item) => {
@@ -532,11 +504,7 @@ changeAudio(item.url);
 $('#audioListModal').modal('hide');
 };
 
-if (item.category === 'DJ') {
-djList.appendChild(li);
-} else if (item.category === 'DROP') {
-dropList.appendChild(li);
-} else if (item.category === 'SAD') {
+if (item.category === 'SAD') {
 sadList.appendChild(li);
 }
 });
