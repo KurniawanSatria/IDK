@@ -191,7 +191,7 @@ router.get("/wallpaper", async (req, res) => {
   const { query } = req.query;
   if (!query) return res.json({ status: false, creator: 'SatzzDev', message: 'Masukkan parameter query contoh: ?query=anime' });
   try {
-    const response = await axios.get(`https://www.wallpaperflare.com/search?wallpaper=${query}`);
+    const response = await axios.get(`https://www.wallpaperflare.com/search?wallpaper=${query}&mobile=ok`);
     const $ = cheerio.load(response.data);
     const urls = [];
     $('li[itemprop="associatedMedia"]').each((index, element) => {
