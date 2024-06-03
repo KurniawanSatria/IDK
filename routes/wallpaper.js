@@ -4,7 +4,7 @@ import cheerio from 'cheerio';
 export const wallpaper = (query) => {
 try {
 console.log('started');
-const response = await axios.get('https://www.wallpaperflare.com/search?wallpaper=' + query);
+const response = await axios.get('https://www.wallpaperflare.com/search?wallpaper=' + query + '&mobile=ok');
 const $ = cheerio.load(response.data);
 const urls = [];
 $('li[itemprop="associatedMedia"]').each((index, element) => {
