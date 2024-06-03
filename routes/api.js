@@ -189,23 +189,44 @@ router.get("/gura", async (req, res) => {
 
 router.get("/wallpaper", async (req, res) => {
   const { query } = req.query;
-  if (!query) return res.json({ status: false, creator: 'SatzzDev', message: 'Masukkan parameter query contoh: ?query=anime' });
+  if (!query) {
+    return res.json({
+      status: false,
+      creator: 'SatzzDev',
+      message: 'Masukkan parameter query contoh: ?query=anime'
+    });
+  }
+
   try {
     const response = await axios.get(`https://www.wallpaperflare.com/search?wallpaper=${query}&mobile=ok`);
     const $ = cheerio.load(response.data);
-    const urls = [];
+    let imgUrl = null;
+
     $('li[itemprop="associatedMedia"]').each((index, element) => {
+      if (imgUrl) return false; // break the loop if imgUrl is found
+
       const url = $(element).find('a').attr('href') + '/download';
-      if (url) urls.push(url);
+      if (url) {
+        axios.get(url).then(res => {
+          const _$ = cheerio.load(res.data);
+          imgUrl = _$('#show_img').attr('src');
+          if (imgUrl) {
+            res.json({
+              status: true,
+              creator: 'SatzzDev',
+              result: imgUrl
+            });
+          }
+        }).catch(err => {
+          console.error(err);
+          res.status(500).json({ status: false, message: 'Error fetching wallpaper image' });
+        });
+      }
     });
-    const updatedUrls = [];
-    for (const i of urls) {
-      const res = await axios.get(i);
-      const _$ = cheerio.load(res.data);
-      const imgUrl = _$('#show_img').attr('src');
-      updatedUrls.push(imgUrl);
+
+    if (!imgUrl) {
+      res.status(404).json({ status: false, message: 'No wallpapers found' });
     }
-    res.json({ status: true, creator: 'SatzzDev', result: updatedUrls });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: false, message: 'Error fetching wallpapers' });
