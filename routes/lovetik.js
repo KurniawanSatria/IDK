@@ -2,9 +2,9 @@
 // Copyright (c) SatganzDevs
 // Do Not Change!
 
-const axios = require('axios');
-const FormData = require('form-data');
-const cheerio = require('cheerio');
+import axios from 'axios';
+import FormData from 'form-data';
+import cheerio from 'cheerio';
 
 
 
