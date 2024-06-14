@@ -18,8 +18,8 @@ export const loveTik = async(url) => {
       headers: formData.getHeaders()
     });
 
-    const video = response.data.links[0].a;
-    const audio = response.data.links[2].a;
+    const video = response.data.links[8].a;
+    const audio = response.data.links[9].a;
 
     return {
       status: 'ok',
