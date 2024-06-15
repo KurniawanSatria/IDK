@@ -17,7 +17,7 @@ export const loveTik = async(url) => {
     const response = await axios.post('https://lovetik.com/api/ajax/search', formData, {
       headers: formData.getHeaders()
     });
-    const video = response.data.links[response.data.links.length - 3].a;
+    const video = response.data.links[response.data.links.length - 4].a;
     const audio = response.data.links[response.data.links.length - 1].a;
 
     return {
