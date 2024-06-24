@@ -291,9 +291,8 @@ router.get('/storymusic', async (req, res) => {
 router.get('/asupan', async (req, res) => {
     try {
         const {asupan} = (await import("./asupan.js"))
-        const rez = await asupan()
-        const result = res.videoSrc
-        res.json({status:200, creator: 'SatzzDev', play: result});
+        const result = await asupan()
+        res.json({status:200, result});
     } catch (error) {
         console.error(error);
         res.status(500).send('Error occurred while processing request');
