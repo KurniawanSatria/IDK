@@ -43,7 +43,23 @@ return res.data;
 return err;
 }
 };
+async function fetchAsupanVideo() {
+while (true) {
+const { asupan } = await import('./asupan.js');
+const result = await asupan();
+const videoUrl = result.videoSrc;
 
+try {
+const response = await axios.head(videoUrl);
+
+if (response.headers['content-type'].startsWith('video/')) {
+return videoUrl;
+}
+} catch (error) {
+console.error(`Failed to fetch from ${videoUrl}:`, error);
+}
+}
+}
 //━━━━━━━━━━━━━━━[ ROUTES ]━━━━━━━━━━━━━━━━━//
 router.get("/thmb", async(req,res) => {
     let img = [
@@ -290,10 +306,7 @@ router.get('/storymusic', async (req, res) => {
 
 router.get('/asupan', async (req, res) => {
     try {
-        const { asupan } = await import('./asupan.js');
-        const result = await asupan();
-        
-        const videoUrl = result.videoSrc;
+        const videoUrl = await fetchAsupanVideo();
 
         // Mengambil video dari URL
         const response = await axios({
@@ -316,6 +329,7 @@ router.get('/asupan', async (req, res) => {
         res.status(500).send('Error occurred while processing request');
     }
 });
+
 router.get("/random/:type", async (req, res) => {
     const type = req.params.type;
     let url = `https://raw.githubusercontent.com/SatzzDev/API/master/data/${type}.json`;
