@@ -290,15 +290,32 @@ router.get('/storymusic', async (req, res) => {
 
 router.get('/asupan', async (req, res) => {
     try {
-        const {asupan} = (await import("./asupan.js"))
-        const result = await asupan()
-        res.json({status:200, result});
+        const { asupan } = await import('./asupan.js');
+        const result = await asupan();
+        
+        const videoUrl = result.videoSrc;
+
+        // Mengambil video dari URL
+        const response = await axios({
+            url: videoUrl,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
+        // Mengatur header dan mengirimkan video
+        res.set({
+            "Content-Type": "video/mp4",
+            "Content-Disposition": "inline"
+        });
+
+        // Mengalirkan konten video ke respons
+        response.data.pipe(res);
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Error occurred while processing request');
     }
 });
-
 router.get("/random/:type", async (req, res) => {
     const type = req.params.type;
     let url = `https://raw.githubusercontent.com/SatzzDev/API/master/data/${type}.json`;
