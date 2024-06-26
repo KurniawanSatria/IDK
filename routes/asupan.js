@@ -3,7 +3,7 @@ import cheerio from "cheerio"
 
 export const asupan = async() => {
 try {
-/*const usernames = [
+const usernames = [
 "kkara000",
 "initokyolagii",
 "amnddiah_",
@@ -16,9 +16,8 @@ try {
 ];
 const username =
 usernames[Math.floor(Math.random() * usernames.length)];
-*/
 const stalkResponse = await axios.get(
-`https://urlebird.com/user/penyegar__mata/`,
+`https://urlebird.com/user/${username}/`,
 );
 const stalkHtml = stalkResponse.data;
 const $stalk = cheerio.load(stalkHtml);
