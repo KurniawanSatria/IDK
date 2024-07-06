@@ -25,6 +25,8 @@ import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import nulish from 'nulis'
 import JXR from 'jxr-canvas';
+import gtts from 'node-gtts';
+
 
 //━━━━━━━━━━━━━━━[ ROUTER ]━━━━━━━━━━━━━━━━━//
 const router = new Router();
@@ -61,6 +63,36 @@ console.error(`Failed to fetch from ${videoUrl}:`, error);
 }
 }
 //━━━━━━━━━━━━━━━[ ROUTES ]━━━━━━━━━━━━━━━━━//
+// Route definitions
+router.get('/tts', async (req, res) => {
+  let { text, lang = 'id' } = req.query;
+
+  const tts = (text, lang = 'id') => {
+    console.log(lang, text);
+    return new Promise((resolve, reject) => {
+      try {
+        const tts = new gtts(text, lang);
+        const filePath = path.join(__dirname, `${Date.now()}.wav`);
+        tts.save(filePath, async () => {
+          const data = await fs.readFile(filePath);
+          resolve(data);
+          await fs.unlink(filePath);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
+
+  try {
+    const audioBuffer = await tts(text, lang);
+    res.set('Content-Type', 'audio/wav');
+    res.send(audioBuffer);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    res.status(500).send(`Error processing text-to-speech: ${error.message}`);
+  }
+});
 router.get("/thmb", async(req,res) => {
     let img = [
                "https://i.pinimg.com/originals/4c/7f/b6/4c7fb6fa1a8a49f8e14dc02a7cbe3860.jpg",
