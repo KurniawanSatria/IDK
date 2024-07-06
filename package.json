@@ -19,7 +19,8 @@
     "jxr-canvas": "^1.8.0",
     "morgan": "^1.10.0",
     "nulis": "^0.0.0",
-    "ssl-express-www": "^3.2.1"
+    "ssl-express-www": "^3.2.1",
+    "node-gtts": "latest"
   },
   "devDependencies": {
     "nodemon": "^2.0.21"
