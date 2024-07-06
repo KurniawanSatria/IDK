@@ -65,13 +65,12 @@ console.error(`Failed to fetch from ${videoUrl}:`, error);
 //━━━━━━━━━━━━━━━[ ROUTES ]━━━━━━━━━━━━━━━━━//
 // Route definitions
 router.get('/tts', async (req, res) => {
-  let { text, lang = 'id' } = req.query;
+  let { text } = req.query;
 
-  const tts = (text, lang = 'id') => {
-    console.log(lang, text);
+  const tts = (text) => {
     return new Promise((resolve, reject) => {
       try {
-        const tts = new gtts(text, lang);
+        const tts = new gtts(text, 'id');
         const filePath = path.join(__dirname, `${Date.now()}.wav`);
         tts.save(filePath, async () => {
           const data = await fs.readFile(filePath);
