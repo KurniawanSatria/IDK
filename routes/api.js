@@ -84,7 +84,7 @@ router.get('/tts', async (req, res) => {
   };
 
   try {
-    const audioBuffer = await tts(text, lang);
+    const audioBuffer = await tts(text);
     res.set('Content-Type', 'audio/wav');
     res.send(audioBuffer);
   } catch (error) {
