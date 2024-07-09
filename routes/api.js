@@ -45,6 +45,16 @@ return res.data;
 return err;
 }
 };
+const getBuffer = async (url, options) => { 
+try { 
+options ? options : {} 
+const res = await axios({ method: "get", url, headers: { 'DNT': 1, 'Upgrade-Insecure-Request': 1 }, ...options, responseType: 'arraybuffer' }) 
+return res.data 
+} catch (err) { 
+return err 
+}
+}
+
 async function fetchAsupanVideo() {
 while (true) {
 const { asupan } = await import('./asupan.js');
@@ -183,9 +193,9 @@ router.get("/welcome", async (req, res) => {
     const image = await new JXR.Welcome()
       .setUsername(username)
       .setGuildName(guildname)
-      .setGuildIcon(guildicon)
+      .setGuildIcon(await getBuffer(guildicon))
       .setMemberCount(membercount)
-      .setAvatar(avatar)
+      .setAvatar(await getBuffer(avatar))
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
@@ -204,9 +214,9 @@ router.get("/goodbye", async (req, res) => {
     const image = await new JXR.Goodbye()
       .setUsername(username)
       .setGuildName(guildname)
-      .setGuildIcon(guildicon)
+      .setGuildIcon(await getBuffer(guildicon))
       .setMemberCount(membercount)
-      .setAvatar(avatar)
+      .setAvatar(await getBuffer(avatar))
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
