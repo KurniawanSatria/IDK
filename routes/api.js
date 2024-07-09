@@ -193,9 +193,9 @@ router.get("/welcome", async (req, res) => {
     const image = await new JXR.Welcome()
       .setUsername(username)
       .setGuildName(guildname)
-      .setGuildIcon(await getBuffer(guildicon))
+      .setGuildIcon(Buffer.from(await getBuffer(guildicon)))
       .setMemberCount(membercount)
-      .setAvatar(await getBuffer(avatar))
+      .setAvatar(Buffer.from(await getBuffer(avatar)))
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
@@ -214,9 +214,9 @@ router.get("/goodbye", async (req, res) => {
     const image = await new JXR.Goodbye()
       .setUsername(username)
       .setGuildName(guildname)
-      .setGuildIcon(await getBuffer(guildicon))
+      .setGuildIcon(Buffer.from(await getBuffer(guildicon)))
       .setMemberCount(membercount)
-      .setAvatar(await getBuffer(avatar))
+      .setAvatar(Buffer.from(await getBuffer(avatar)))
       .setBackground(background || "https://telegra.ph/file/c792631587035c6cd185e.jpg")
       .toAttachment();
     const buffer = image.toBuffer();
