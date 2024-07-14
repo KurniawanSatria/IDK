@@ -312,7 +312,21 @@ router.get('/storyanime', async (req, res) => {
         const $ = cheerio.load(rez.data);
         const videoUrls = $('video source').map((i, el) => $(el).attr('src')).get();
         const result = videoUrls[Math.floor(Math.random() * videoUrls.length)];
-        res.json(result);
+        // Mengambil video dari URL
+        const response = await axios({
+            url: result,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
+        // Mengatur header dan mengirimkan video
+        res.set({
+            "Content-Type": "video/mp4",
+            "Content-Disposition": "inline"
+        });
+
+        // Mengalirkan konten video ke respons
+        response.data.pipe(res);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error occurred while processing request');
@@ -330,7 +344,21 @@ router.get('/storymusic', async (req, res) => {
         const $ = cheerio.load(rez.data);
         const videoUrls = $('video source').map((i, el) => $(el).attr('src')).get();
         const result = videoUrls[Math.floor(Math.random() * videoUrls.length)];
-        res.json({status:200, creator: 'SatzzDev', play: result});
+        // Mengambil video dari URL
+        const response = await axios({
+            url: result,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
+        // Mengatur header dan mengirimkan video
+        res.set({
+            "Content-Type": "video/mp4",
+            "Content-Disposition": "inline"
+        });
+
+        // Mengalirkan konten video ke respons
+        response.data.pipe(res);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error occurred while processing request');
