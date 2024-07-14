@@ -336,6 +336,7 @@ router.get('/storyanime', async (req, res) => {
 router.get('/storymusic', async (req, res) => {
     try {
         const users = [
+            'https://tikgun.com/username/6971740825177506821',
             'https://tikgun.com/username/6932714198158115841',
             'https://tikgun.com/username/7097573996917965851',
         ];
